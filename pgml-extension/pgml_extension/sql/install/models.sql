@@ -175,6 +175,20 @@ AS $$
 $$ LANGUAGE SQL;
 
 ---
+--- Predict Prob
+---
+CREATE OR REPLACE FUNCTION pgml.predict_prob(
+	project_name TEXT,          -- Human-friendly project name
+	features DOUBLE PRECISION[] -- Must match the training data column order
+)
+RETURNS DOUBLE PRECISION []
+AS $$
+	from pgml_extension.model import Project
+
+	return Project.find_by_name(project_name).deployed_model.predict_prob(features)
+$$ LANGUAGE plpython3u;
+
+---
 --- Predict w/ multiple outputs
 ---
 CREATE OR REPLACE FUNCTION pgml.predict_joint_versioned(

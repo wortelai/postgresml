@@ -1005,6 +1005,20 @@ class Model(object):
             return y[0][0]
         return y[0]
 
+    def predict_prob(self, data: list):
+        """Use the model for a set of features.
+
+        Args:
+            data (list): list of features to form a single prediction for
+
+        Returns:
+            float or int: Returns the probavilities for all the classes (Works for only Classification Models)
+        """
+        # TODO: add metrics for tracking prediction volume/accuracy by model
+        # TODO: smarter treatment for images rather than flattening
+        y = self.algorithm.predict_proba([numpy.array(data).flatten()])
+        return y[0]
+
 
 def snapshot(
     relation_name: str,
